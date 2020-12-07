@@ -1,7 +1,7 @@
 import mysql.connector as mysql
 
 class connector():
-    def __init__(self,host='remotemysql.com',database='sVoaoAqxZh',user='sVoaoAqxZh',password="NAthskLPEQ"):
+    def __init__(self,host='remotemysql.com',database='',user='',password=""):
         self.HOST = host # or "domain.com"
         # database name, if you want just to connect to MySQL server, leave it empty
         self.DATABASE = database
