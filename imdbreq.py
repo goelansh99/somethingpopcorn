@@ -1,29 +1,47 @@
 import json,requests
-import PIL
-import io
-url = "https://imdb8.p.rapidapi.com/title/auto-complete"
 
-querystring = {"q":"tron"}
+class caramelPopcorn:
+    def __init__(self):
+        self.findmovieurl = "https://imdb8.p.rapidapi.com/title/find"
+        self.findgenreurl = "https://imdb8.p.rapidapi.com/title/get-genres"
+        self.getpopmovieurl = "https://imdb8.p.rapidapi.com/title/get-most-popular-movies"
+        self.getgenremovurl = "https://imdb8.p.rapidapi.com/title/get-popular-movies-by-genre"
+        self.getmorelikeurl = "https://imdb8.p.rapidapi.com/title/get-more-like-this"
+        self.getdetailurl = "https://imdb8.p.rapidapi.com/title/get-details"
+        self.movid=""
 
-headers = {
-    'x-rapidapi-key': "",
-    'x-rapidapi-host': ""
-    }
+        self.headers = {
+            'x-rapidapi-key': "390eb3d922msh2c82861713f4c28p1ee060jsnd27953c51187",
+            'x-rapidapi-host': "imdb8.p.rapidapi.com"
+            }
 
-response = requests.request("GET", url, headers=headers, params=querystring)
+    def retreivedata(self,name):
+        
+        self.querystring = {"q":name}
 
-# python_dictionary_values = json.loads(response.text)
+       
 
-# print(response.text)
-details=response.json()
-print(type(details))
-# print(details['d'][0])
-print(details['d'][0]['y'])
-imgurl=details['d'][0]['i']['imageUrl']
-print(imgurl)
-img = requests.get(imgurl)
-print(imgurl)
-# image_bytes = io.BytesIO(img.content)
+        self.response = requests.request("GET", self.findmovieurl, headers=self.headers, params=self.querystring)
 
-# img = PIL.Image.open(image_bytes)
-# img.show()
+        # python_dictionary_values = json.loads(response.text)
+
+        # print(response.text)
+        self.details=self.response.json()
+        print(type(self.details))
+        print(self.details['results'])
+        print("_"*150)
+        print(self.details['results'][0]['id'])
+        print(self.details['results'][0]['id'].split('/')[2])
+        print(self.details['results'][0]['image']['url'])
+        print(self.details['results'][0]['runningTimeInMinutes'])
+        print(self.details['results'][0]['title'])
+        print(self.details['results'][0]['year'])
+        
+        self.movid+=self.details['results'][0]['id'].split('/')[2]
+
+    
+tub=caramelPopcorn()
+name=input("Enter Movie Name: ")
+tub.retreivedata(name)
+print(tub.movid)
+
