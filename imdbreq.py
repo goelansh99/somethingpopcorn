@@ -12,7 +12,7 @@ class caramelPopcorn:
         self.genres=[]
 
         self.headers = {
-            'x-rapidapi-key': "390eb3d922msh2c82861713f4c28p1ee060jsnd27953c51187",
+            'x-rapidapi-key': "6c64c074b6msh74152f25ef69287p1ea8cajsn30fc732c0177",
             'x-rapidapi-host': "imdb8.p.rapidapi.com"
             }
 
@@ -47,13 +47,13 @@ class caramelPopcorn:
     def getgenre(self,name):
 
         self.id = self.retreivedata(name)
-        self.querystring = {"tconst" :id}
+        self.querystring = {"tconst" :self.id}
 
-        self.details =  (requests.request("GET", self.findgenreurl, headers=self.headers, params=self.querystring).text)
+        self.details =  (requests.request("GET", self.findgenreurl, headers=self.headers, params=self.querystring).json())
         print (self.details)
         #self.details = self.response.json()
-        if len(self.details) > 1:
-            self.gneres = self.details
+        if len(self.details) <= 1:
+            self.genres = self.details
         
         else :
             self.genres = self.details[:2]
