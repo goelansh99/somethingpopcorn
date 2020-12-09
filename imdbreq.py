@@ -9,6 +9,7 @@ class caramelPopcorn:
         self.getmorelikeurl = "https://imdb8.p.rapidapi.com/title/get-more-like-this"
         self.getdetailurl = "https://imdb8.p.rapidapi.com/title/get-details"
         self.movid=""
+        self.genres=[]
 
         self.headers = {
             'x-rapidapi-key': "390eb3d922msh2c82861713f4c28p1ee060jsnd27953c51187",
@@ -27,8 +28,8 @@ class caramelPopcorn:
 
         # print(response.text)
         self.details=self.response.json()
-        print(type(self.details))
-        print(self.details['results'])
+        #print(type(self.details))
+        #print(self.details['results'])
         print("_"*150)
         print(self.details['results'][0]['id'])
         print(self.details['results'][0]['id'].split('/')[2])
@@ -39,9 +40,29 @@ class caramelPopcorn:
         
         self.movid+=self.details['results'][0]['id'].split('/')[2]
 
+        self.response.close()
+        return self.movid
+
+    
+    def getgenre(self,name):
+
+        self.id = self.retreivedata(name)
+        self.querystring = {"tconst" :id}
+
+        self.details =  (requests.request("GET", self.findgenreurl, headers=self.headers, params=self.querystring).text)
+        print (self.details)
+        #self.details = self.response.json()
+        if len(self.details) > 1:
+            self.gneres = self.details
+        
+        else :
+            self.genres = self.details[:2]
+    
+        print (self.genres)
+
+
+
     
 tub=caramelPopcorn()
 name=input("Enter Movie Name: ")
-tub.retreivedata(name)
-print(tub.movid)
-
+tub.getgenre(name)
